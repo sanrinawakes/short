@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACT診断 簡易版 - Awakening Consciousness Type Exam</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
+
+:root {
+--primary-gradient: linear-gradient(135deg, #7c4dff 0%, #3949ab 100%);
+--secondary-gradient: linear-gradient(135deg, #536dfe 0%, #3f51b5 100%);
+--background-gradient: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+--card-background: rgba(255, 255, 255, 0.98);
+--text-primary: #2d3436;
+--text-secondary: #636e72;
+--shadow-soft: 0 10px 30px rgba(0,0,0,0.2);
+--shadow-hover: 0 15px 40px rgba(0,0,0,0.25);
+--border-radius: 20px;
+--transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+font-family: 'Noto Sans JP', sans-serif;
+background: var(--background-gradient);
+color: var(--text-primary);
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 20px;
+line-height: 1.6;
+position: relative;
+overflow-x: hidden;
+}
+
+body::before {
+content: '';
+position: fixed;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
+background-size: 50px 50px;
+animation: backgroundMove 20s linear infinite;
+z-index: -1;
+}
+
+@keyframes backgroundMove {
+0% { transform: translate(0, 0); }
+100% { transform: translate(50px, 50px); }
+}
+
+.container {
+background: var(--card-background);
+backdrop-filter: blur(10px);
+padding: 40px;
+border-radius: var(--border-radius);
+box-shadow: var(--shadow-soft);
+width: 100%;
+max-width: 800px;
+text-align: center;
+transition: var(--transition);
+animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+h1 {
+background: var(--primary-gradient);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+margin-bottom: 30px;
+font-size: 2.5em;
+font-weight: 700;
+letter-spacing: -0.5px;
+}
+
+h2 {
+color: var(--text-primary);
+margin: 30px 0 20px;
+font-size: 1.8em;
+font-weight: 400;
+}
+
+#start-screen p, #result-screen p {
+font-size: 1.1em;
+color: var(--text-secondary);
+margin-bottom: 25px;
+line-height: 1.8;
+}
+
+.agreement-section {
+background: #f8f9fa;
+border-radius: 15px;
+padding: 25px;
+margin: 30px 0;
+text-align: left;
+border: 1px solid #e0e0e0;
+}
+
+.agreement-section h3 {
+color: #d32f2f;
+font-size: 1.2em;
+margin-bottom: 15px;
+font-weight: 500;
+}
+
+.agreement-text {
+font-size: 0.95em;
+line-height: 1.8;
+color: var(--text-primary);
+margin-bottom: 20px;
+}
+
+.agreement-checkbox {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-top: 20px;
+}
+
+.agreement-checkbox input[type="checkbox"] {
+width: 20px;
+height: 20px;
+cursor: pointer;
+}
+
+.agreement-checkbox label {
+cursor: pointer;
+font-size: 1em;
+color: var(--text-primary);
+font-weight: 500;
+}
+
+#question-text {
+font-size: 1.3em;
+color: var(--text-primary);
+margin-bottom: 15px;
+text-align: left;
+font-weight: 400;
+}
+
+.question-supplement {
+font-size: 0.95em;
+color: var(--text-secondary);
+margin-bottom: 30px;
+text-align: left;
+padding: 20px;
+background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+border-left: 4px solid #5c6bc0;
+border-radius: 10px;
+line-height: 1.8;
+}
+
+#choices-area {
+display: flex;
+flex-direction: column;
+gap: 15px;
+margin-bottom: 30px;
+}
+
+.choice-button {
+background: white;
+border: 2px solid #e0e0e0;
+padding: 18px 25px;
+border-radius: 15px;
+cursor: pointer;
+font-size: 1.05em;
+transition: var(--transition);
+text-align: left;
+position: relative;
+overflow: hidden;
+}
+
+.choice-button::before {
+content: '';
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: var(--primary-gradient);
+transition: var(--transition);
+z-index: -1;
+}
+
+.choice-button:hover {
+transform: translateY(-3px);
+box-shadow: var(--shadow-hover);
+border-color: #5c6bc0;
+}
+
+.choice-button:hover::before {
+left: 0;
+}
+
+.choice-button:hover {
+color: white;
+}
+
+.choice-button.selected {
+background: var(--primary-gradient);
+color: white;
+border-color: transparent;
+transform: scale(1.02);
+box-shadow: 0 5px 20px rgba(92, 107, 192, 0.4);
+}
+
+.button-primary {
+background: var(--primary-gradient);
+color: white;
+border: none;
+padding: 15px 40px;
+border-radius: 30px;
+cursor: pointer;
+font-size: 1.1em;
+font-weight: 500;
+transition: var(--transition);
+margin: 10px;
+box-shadow: 0 4px 15px rgba(92, 107, 192, 0.3);
+}
+
+.button-secondary {
+background: white;
+color: #5c6bc0;
+border: 2px solid #5c6bc0;
+padding: 15px 40px;
+border-radius: 30px;
+cursor: pointer;
+font-size: 1.1em;
+font-weight: 500;
+transition: var(--transition);
+margin: 10px;
+}
+
+.button-primary:hover:not(:disabled) {
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(92, 107, 192, 0.4);
+}
+
+.button-secondary:hover:not(:disabled) {
+background: #5c6bc0;
+color: white;
+transform: translateY(-3px);
+box-shadow: 0 8px 25px rgba(92, 107, 192, 0.4);
+}
+
+.button-primary:disabled, .button-secondary:disabled {
+opacity: 0.5;
+cursor: not-allowed;
+transform: none;
+}
+
+#question-counter {
+font-size: 0.95em;
+color: var(--text-secondary);
+margin-bottom: 25px;
+font-weight: 300;
+}
+
+#progress-bar-container {
+width: 100%;
+background: rgba(224, 224, 224, 0.5);
+border-radius: 20px;
+margin-bottom: 30px;
+height: 8px;
+overflow: hidden;
+position: relative;
+}
+
+#progress-bar {
+height: 100%;
+background: var(--primary-gradient);
+border-radius: 20px;
+transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+position: relative;
+overflow: hidden;
+}
+
+#progress-bar::after {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+bottom: 0;
+right: 0;
+background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+);
+animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+0% { transform: translateX(-100%); }
+100% { transform: translateX(100%); }
+}
+
+#result-code {
+font-size: 3em;
+font-weight: 700;
+background: var(--primary-gradient);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+background-clip: text;
+margin: 30px 0;
+padding: 20px;
+display: inline-block;
+animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+0% { transform: scale(1); }
+50% { transform: scale(1.05); }
+100% { transform: scale(1); }
+}
+
+.result-details {
+text-align: left;
+background: #f8f9fa;
+border-radius: 15px;
+padding: 25px;
+margin: 20px 0;
+}
+
+.result-section {
+margin: 20px 0;
+}
+
+.result-section h3 {
+color: #5c6bc0;
+font-size: 1.2em;
+margin-bottom: 10px;
+}
+
+.button-container {
+display: flex;
+justify-content: center;
+gap: 15px;
+margin-top: 30px;
+flex-wrap: wrap;
+}
+
+#trait-guidance {
+background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+padding: 15px 20px;
+border-radius: 10px;
+text-align: center;
+box-shadow: 0 2px 10px rgba(92, 107, 192, 0.1);
+margin-bottom: 20px;
+color: #5c6bc0;
+font-weight: 500;
+}
+
+@media (max-width: 600px) {
+.container {
+padding: 25px;
+}
+h1 {
+font-size: 2em;
+}
+.button-primary, .button-secondary {
+padding: 12px 30px;
+font-size: 1em;
+}
+.agreement-section {
+padding: 20px;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1 id="main-title">ACT診断 簡易版</h1>
+
+<div id="start-screen">
+<p id="intro-text-1">この診断は、あなたの内面を探求し、現在のタイプと意識レベルを明らかにします。</p>
+<p id="intro-text-2">30個の質問に答えることで、あなたの現在の状態がわかります。</p>
+<p id="intro-text-3">※ 正直に、今の自分の実際の行動や感じ方を答えてください。</p>
+
+<div class="agreement-section">
+<h3>⚠️ 著作権および利用規約について</h3>
+<div class="agreement-text">
+この診断は三凛さとしが開発した「ACT診断」の簡易版であり、著作権法により保護されています。<br><br>
+無断での転載・引用・複製・改変・販売・公開・SNSへの掲載は禁止されています。
+</div>
+<div class="agreement-checkbox">
+<input type="checkbox" id="agreement-check" />
+<label for="agreement-check">私は上記の利用規約・著作権ポリシーに同意します。</label>
+</div>
+</div>
+
+<button id="start-button" class="button-primary" onclick="startQuiz()" disabled>診断を開始する</button>
+</div>
+
+<div id="quiz-screen" style="display:none;">
+<div id="trait-guidance" style="display:none;">
+※「どちらが正しいか」ではなく、「普段どちらを選びがちか」で答えてください。
+</div>
+<div id="progress-bar-container">
+<div id="progress-bar"></div>
+</div>
+<div id="question-counter"></div>
+<div id="question-container"></div>
+<div id="choices-area"></div>
+<div class="button-container">
+<button id="prev-question-button" class="button-secondary" onclick="loadPreviousQuestion()">戻る</button>
+<button id="next-question-button" class="button-primary" onclick="loadNextQuestion()" disabled>次へ</button>
+</div>
+</div>
+
+<div id="result-screen" style="display:none;">
+<h2 id="result-title">診断結果</h2>
+<p id="result-text">あなたのACT診断コードは</p>
+<h3 id="result-code"></h3>
+<div class="result-details">
+<div class="result-section">
+<h3 id="type-name"></h3>
+<p id="level-name" style="font-size: 1.2em; color: #5c6bc0; font-weight: 500; margin-top: 10px;"></p>
+</div>
+</div>
+<button id="restart-button" class="button-primary" onclick="restartQuiz()">もう一度診断する</button>
+</div>
+</div>
+
+<script>
+// ===== グローバル変数 =====
+let currentQuestionIndex = 0;
+let userAnswers = [];
+let scores = {
+    S1: 0, M1: 0, P1: 0,  // 行動エネルギー軸
+    V2: 0, M2: 0, G2: 0,  // 思考傾向軸
+    A3: 0, M3: 0, E3: 0,  // 評価基準軸
+    consciousnessLevel: 0  // 意識レベル
+};
+
+// ===== 意識レベル測定用質問（10問）=====
+const consciousnessQuestions = [
+    {
+        id: 1,
+        text: "朝起きた時の気持ちは（最近1ヶ月を振り返って）？",
+        choices: [
+            { text: "毎朝すっと前向きな気持ちで目覚めている", score: 2 },
+            { text: "その日の予定や体調次第で気持ちよく起きられる日とそうでない日がある", score: 1 },
+            { text: "特に辛さは感じず、普通に起きている", score: 0 },
+            { text: "どうも朝がしんどいことが多い", score: -1 }
+        ]
+    },
+    
+    {
+        id: 2,
+        text: "他人の成功や成長を見た時の反応は？",
+        choices: [
+            { text: "とても嬉しくなり、心から祝福したくなる", score: 2 },
+            { text: "少し心がざわつくが自分は自分と思えている", score: 1 },
+            { text: "特に何も思わない", score: 0 },
+            { text: "正直、ちょっと失敗してくれたら安心する", score: -1 }
+        ]
+    },
+    
+    {
+        id: 3,
+        text: "困難な状況や失敗に遭遇した時の受け止め方は？",
+        choices: [
+            { text: "どんな経験にも深い意味と感謝を感じ、必ず糧にする", score: 2 },
+            { text: "全てではないが何か意味があったと思えることもある", score: 1 },
+            { text: "起きたことは仕方ないと受け入れられている", score: 0 },
+            { text: "前向きな意味を見つけられないことが多い", score: -1 }
+        ]
+    },
+    
+    {
+        id: 4,
+        text: "日々の過ごし方について",
+        choices: [
+            { text: "とても元気。毎日新鮮な気持ちで生きていて楽しい", score: 2 },
+            { text: "楽しい瞬間はあるが落ち込んだり嫌な気持ちになることもある", score: 1 },
+            { text: "可もなく不可もなく", score: 0 },
+            { text: "日々を楽しめていない、どんよりした気持ちで過ごすことが多い", score: -1 }
+        ]
+    },
+    
+    {
+        id: 5,
+        text: "他人からの指摘やフィードバックへの反応は？",
+        choices: [
+            { text: "どんな指摘も感謝して受け止め、人生に活かし、状況を改善している", score: 2 },
+            { text: "必要なものは受け入れてあとは気にしないようにしている", score: 1 },
+            { text: "いいアドバイスならありがたいが、腹がたつこともある", score: 0 },
+            { text: "指摘や批判ばかりされてしまうので辛い", score: -1 }
+        ]
+    },
+    
+    {
+        id: 6,
+        text: "他人の良い所・変化を見つけた時の行動は？",
+        choices: [
+            { text: "積極的に褒めたり感謝を伝え、自分まで幸せになる", score: 2 },
+            { text: "良い所に気づいたらできるだけ伝えている", score: 1 },
+            { text: "褒めるのが苦手なのであまり褒めない", score: 0 },
+            { text: "恵まれた環境にいる人はいいなと正直に思う", score: -1 }
+        ]
+    },
+    
+    {
+        id: 7,
+        text: "人生全体をどう捉えていますか？",
+        choices: [
+            { text: "自分の人生は楽しく豊かで、とても素晴らしいものだと思う", score: 2 },
+            { text: "良いことも悪いこともあるのが人生だ", score: 1 },
+            { text: "楽しいこともあるが、今の時代は苦労の方が多いと感じる", score: 0 },
+            { text: "人生は基本的に苦しいものだと感じている", score: -1 }
+        ]
+    },
+    
+    {
+        id: 8,
+        text: "未来について考える時の気持ちは？",
+        choices: [
+            { text: "新しいチャレンジや可能性にワクワクする", score: 2 },
+            { text: "今よりよくなるとか悪くなるというイメージがあまりない", score: 1 },
+            { text: "うまくいかないことを考え、心の準備をする", score: 0 },
+            { text: "不安や心配の方が大きい", score: -1 }
+        ]
+    },
+    
+    {
+        id: 9,
+        text: "世の中や周囲とのつながりについて",
+        choices: [
+            { text: "いつも「すべてはつながっている」と実感している", score: 2 },
+            { text: "つながっていることもあればそうでないこともあると感じる", score: 1 },
+            { text: "「人は人、自分は自分」と割り切れることが多い", score: 0 },
+            { text: "今の世の中は理不尽だと気づき、心を痛めている", score: -1 }
+        ]
+    },
+    
+    {
+        id: 10,
+        text: "人生の目的や生きる意味について",
+        choices: [
+            { text: "はっきりした使命感やビジョンで日々動いている", score: 2 },
+            { text: "なんとなくは意識している", score: 1 },
+            { text: "生きる意味や目的を探している", score: 0 },
+            { text: "そんなことはほとんど考えない", score: -1 }
+        ]
+    }
+];
+
+// ===== 特性測定用質問（20問）=====
+const personalityQuestions = [
+    // 行動エネルギー軸（7問）
+    {
+        id: 11,
+        text: "週末の理想的な過ごし方は？",
+        choices: [
+            { text: "家でゆっくり本を読んだり、一人の時間を満喫する", scores: { S1: 2 } },
+            { text: "午前は一人でゆっくり、午後は人と過ごすなど、バランスよく", scores: { M1: 2 } },
+            { text: "友達と会ったり、人と一緒に楽しむ", scores: { P1: 2 } }
+        ]
+    },
+    
+    {
+        id: 12,
+        text: "パーティーや飲み会が終わった後は？",
+        choices: [
+            { text: "大勢は疲れるから、一人きりでゆっくりしたい", scores: { S1: 2 } },
+            { text: "楽しかったし、程よい疲れ。明日はゆっくり過ごそう", scores: { M1: 2 } },
+            { text: "まだまだ元気！二次会行く？もっと話したい！", scores: { P1: 2 } }
+        ]
+    },
+    
+    {
+        id: 13,
+        text: "初対面の人が多い場所での振る舞いは？",
+        choices: [
+            { text: "端の方で様子を見ながら。親しい人とだけ話す", scores: { S1: 2 } },
+            { text: "最初は様子見から入り、適度にまわりと会話する", scores: { M1: 2 } },
+            { text: "積極的に自己紹介して、どんどん輪を広げていく", scores: { P1: 2 } }
+        ]
+    },
+    
+    {
+        id: 14,
+        text: "ストレス解消法として効果的なのは？",
+        choices: [
+            { text: "一人で音楽を聴いたり、散歩したり、静かに過ごす", scores: { S1: 2 } },
+            { text: "一人の時間と人と会う時間を使い分ける", scores: { M1: 2 } },
+            { text: "友達とおしゃべりしたり、にぎやかに過ごして発散", scores: { P1: 2 } }
+        ]
+    },
+    
+    {
+        id: 15,
+        text: "何か悩み事がある時は？",
+        choices: [
+            { text: "基本的に一人で考えて決める", scores: { S1: 2 } },
+            { text: "ある程度考えてから、信頼できる人に相談", scores: { M1: 2 } },
+            { text: "すぐに誰かに話して、一緒に考えてもらう", scores: { P1: 2 } }
+        ]
+    },
+    
+    {
+        id: 16,
+        text: "理想的な仕事環境は？",
+        choices: [
+            { text: "個室や仕切りがあって、集中できる静かな環境", scores: { S1: 2 } },
+            { text: "適度にプライバシーがあり、必要な時は相談できる", scores: { M1: 2 } },
+            { text: "オープンスペースで、いつでも相談や雑談ができる", scores: { P1: 2 } }
+        ]
+    },
+    
+    {
+        id: 17,
+        text: "感動した時の反応は？",
+        choices: [
+            { text: "心の中で深く味わい、あまり表に出さない", scores: { S1: 2 } },
+            { text: "状況によって、表現したり内に秘めたり", scores: { M1: 2 } },
+            { text: "すぐに誰かと共有したい！SNSに投稿することも", scores: { P1: 2 } }
+        ]
+    },
+    
+    // 思考傾向軸（7問）
+    {
+        id: 18,
+        text: "料理を作る時のアプローチは？",
+        choices: [
+            { text: "『この組み合わせ面白そう！』と直感でアレンジを加える", scores: { V2: 2 } },
+            { text: "基本のレシピを参考に、少しだけ自分流にアレンジ", scores: { M2: 2 } },
+            { text: "レシピ通りに正確に、分量もきっちり計る", scores: { G2: 2 } }
+        ]
+    },
+    
+    {
+        id: 19,
+        text: "旅行の計画を立てる時は？",
+        choices: [
+            { text: "行き当たりばったりも楽しい！大まかな方向だけ決める", scores: { V2: 2 } },
+            { text: "主要な場所は決めるが、細かいところは現地で", scores: { M2: 2 } },
+            { text: "時間単位で綿密に計画、予約も全て事前に", scores: { G2: 2 } }
+        ]
+    },
+    
+    {
+        id: 20,
+        text: "新しい家電を買った時、説明書は？",
+        choices: [
+            { text: "見ないでとりあえず触ってみる。分からなくなったら見る", scores: { V2: 2 } },
+            { text: "基本操作だけ確認して、あとは使いながら覚える", scores: { M2: 2 } },
+            { text: "最初から最後まで全部読んでから使い始める", scores: { G2: 2 } }
+        ]
+    },
+    
+    {
+        id: 21,
+        text: "友達との会話で盛り上がるのは？",
+        choices: [
+            { text: "『もし宇宙人がいたら…』みたいな空想話や未来の話", scores: { V2: 2 } },
+            { text: "話題の幅が広く、どんな話でもある程度楽しめる", scores: { M2: 2 } },
+            { text: "実際にあった出来事や、役立つ情報交換", scores: { G2: 2 } }
+        ]
+    },
+    
+    {
+        id: 22,
+        text: "時間の感覚は？",
+        choices: [
+            { text: "時間を忘れて没頭することが多い", scores: { V2: 2 } },
+            { text: "基本は時間を守るが、柔軟に対応もできる", scores: { M2: 2 } },
+            { text: "5分前行動が基本。時間はきっちり守る", scores: { G2: 2 } }
+        ]
+    },
+    
+    {
+        id: 23,
+        text: "片付けや整理整頓は？",
+        choices: [
+            { text: "整理整頓はあまり得意ではない", scores: { V2: 2 } },
+            { text: "基本は整理するが、多少の散らかりは気にしない", scores: { M2: 2 } },
+            { text: "すべて定位置に。きっちり整理整頓されている", scores: { G2: 2 } }
+        ]
+    },
+    
+    {
+        id: 24,
+        text: "人生設計を考えるときの視点は？",
+        choices: [
+            { text: "自分らしさやワクワクするビジョンを最優先に描く", scores: { V2: 2 } },
+            { text: "夢と現実をすり合わせながらビジョンを描く", scores: { M2: 2 } },
+            { text: "まずは収入・安定・環境など現実的な条件から考える", scores: { G2: 2 } }
+        ]
+    },
+    
+    // 評価基準軸（6問）
+    {
+        id: 25,
+        text: "友達が『この服似合う？』と聞いてきたら？",
+        supplement: "正直微妙だなと思った時の対応",
+        choices: [
+            { text: "『正直に言うと、前の方が似合ってたかな』と言ってあげるのが誠実", scores: { A3: 2 } },
+            { text: "『悪くないけど、こっちの方がもっと似合いそう！』と代案", scores: { M3: 2 } },
+            { text: "『うん、いいと思う！』と相手の気持ちを優先", scores: { E3: 2 } }
+        ]
+    },
+    
+    {
+        id: 26,
+        text: "誰かが泣いている時の対応は？",
+        choices: [
+            { text: "原因を聞いて、解決策を一緒に考える", scores: { A3: 2 } },
+            { text: "まず共感して、落ち着いたら一緒に考える", scores: { M3: 2 } },
+            { text: "とにかく寄り添って、『大丈夫だよ』と抱きしめる", scores: { E3: 2 } }
+        ]
+    },
+    
+    {
+        id: 27,
+        text: "褒められて一番嬉しいのは？",
+        choices: [
+            { text: "『論理的で頭がいい』『仕事ができる』", scores: { A3: 2 } },
+            { text: "『バランスが取れてて頼りになる』", scores: { M3: 2 } },
+            { text: "『優しい』『一緒にいると安心する』", scores: { E3: 2 } }
+        ]
+    },
+    
+    {
+        id: 28,
+        text: "議論や討論の時のスタイルは？",
+        choices: [
+            { text: "データと論理で、客観的に正しさを証明する", scores: { A3: 2 } },
+            { text: "論理も大事だが、相手の立場も考慮する", scores: { M3: 2 } },
+            { text: "対立を避け、みんなが納得する着地点を探す", scores: { E3: 2 } }
+        ]
+    },
+    
+    {
+        id: 29,
+        text: "大切な決断をする時の判断基準は？",
+        choices: [
+            { text: "データ、確率、論理的な分析結果", scores: { A3: 2 } },
+            { text: "論理と直感の両方を考慮", scores: { M3: 2 } },
+            { text: "心の声、直感、関わる人の幸せ", scores: { E3: 2 } }
+        ]
+    },
+    
+    {
+        id: 30,
+        text: "『正しさ』と『優しさ』どちらが大切？",
+        choices: [
+            { text: "正しいことを貫くのが結果的に皆のため", scores: { A3: 2 } },
+            { text: "時と場合による。バランスが大切", scores: { M3: 2 } },
+            { text: "優しさがあれば、多少の間違いは許される", scores: { E3: 2 } }
+        ]
+    }
+];
+
+// 全質問を統合
+const allQuestions = [...consciousnessQuestions, ...personalityQuestions];
+
+// ===== 同意チェックボックスの監視 =====
+document.addEventListener('DOMContentLoaded', function() {
+    const checkbox = document.getElementById('agreement-check');
+    const startButton = document.getElementById('start-button');
+    
+    checkbox.addEventListener('change', function() {
+        if (checkbox.checked) {
+            startButton.disabled = false;
+        } else {
+            startButton.disabled = true;
+        }
+    });
+});
+
+// ===== 意識レベル判定関数（3段階）=====
+function determineConsciousnessLevel(totalScore) {
+    // 10問で最高20点、最低-10点
+    if (totalScore >= 8) return 3;
+    if (totalScore >= 0) return 2;
+    return 1;
+}
+
+// ===== タイプ判定関数 =====
+function determineType() {
+    // 行動エネルギー軸
+    let axis1 = 'M';
+    if (scores.S1 > scores.M1 && scores.S1 > scores.P1) axis1 = 'S';
+    else if (scores.P1 > scores.M1 && scores.P1 > scores.S1) axis1 = 'P';
+    
+    // 思考傾向軸
+    let axis2 = 'M';
+    if (scores.V2 > scores.M2 && scores.V2 > scores.G2) axis2 = 'V';
+    else if (scores.G2 > scores.M2 && scores.G2 > scores.V2) axis2 = 'G';
+    
+    // 評価基準軸
+    let axis3 = 'M';
+    if (scores.A3 > scores.M3 && scores.A3 > scores.E3) axis3 = 'A';
+    else if (scores.E3 > scores.M3 && scores.E3 > scores.A3) axis3 = 'E';
+    
+    return axis1 + axis2 + axis3;
+}
+
+// ===== UI関数 =====
+function startQuiz() {
+    const checkbox = document.getElementById('agreement-check');
+    
+    if (!checkbox.checked) {
+        alert('診断を開始するには、利用規約・著作権ポリシーに同意していただく必要があります。');
+        return;
+    }
+    
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('quiz-screen').style.display = 'block';
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    
+    scores = {
+        S1: 0, M1: 0, P1: 0,
+        V2: 0, M2: 0, G2: 0,
+        A3: 0, M3: 0, E3: 0,
+        consciousnessLevel: 0
+    };
+    
+    loadQuestion();
+}
+
+function loadQuestion() {
+    const question = allQuestions[currentQuestionIndex];
+    const container = document.getElementById('question-container');
+    const choicesArea = document.getElementById('choices-area');
+    
+    // 特性質問中はガイダンスを表示
+    if (currentQuestionIndex >= consciousnessQuestions.length) {
+        document.getElementById('trait-guidance').style.display = 'block';
+    } else {
+        document.getElementById('trait-guidance').style.display = 'none';
+    }
+    
+    // 質問文を表示
+    container.innerHTML = `<div id="question-text">${question.text}</div>`;
+    if (question.supplement) {
+        container.innerHTML += `<div class="question-supplement">${question.supplement}</div>`;
+    }
+    
+    // 選択肢を表示
+    choicesArea.innerHTML = '';
+    question.choices.forEach((choice, index) => {
+        const button = document.createElement('div');
+        button.className = 'choice-button';
+        button.textContent = choice.text;
+        button.onclick = () => selectChoice(index);
+        
+        // 既に選択されている場合はハイライト
+        if (userAnswers[currentQuestionIndex] === index) {
+            button.classList.add('selected');
+        }
+        
+        choicesArea.appendChild(button);
+    });
+    
+    // カウンターとプログレスバー更新
+    document.getElementById('question-counter').textContent = 
+        `質問 ${currentQuestionIndex + 1} / ${allQuestions.length}`;
+    
+    const progress = ((currentQuestionIndex + 1) / allQuestions.length) * 100;
+    document.getElementById('progress-bar').style.width = progress + '%';
+    
+    // ボタンの状態更新
+    document.getElementById('prev-question-button').disabled = currentQuestionIndex === 0;
+    updateNextButton();
+}
+
+function selectChoice(choiceIndex) {
+    userAnswers[currentQuestionIndex] = choiceIndex;
+    
+    // 選択状態を更新
+    const buttons = document.querySelectorAll('.choice-button');
+    buttons.forEach((button, index) => {
+        if (index === choiceIndex) {
+            button.classList.add('selected');
+        } else {
+            button.classList.remove('selected');
+        }
+    });
+    
+    updateNextButton();
+}
+
+function updateNextButton() {
+    const nextButton = document.getElementById('next-question-button');
+    nextButton.disabled = userAnswers[currentQuestionIndex] === undefined;
+}
+
+function loadNextQuestion() {
+    if (currentQuestionIndex < allQuestions.length - 1) {
+        currentQuestionIndex++;
+        loadQuestion();
+    } else {
+        calculateResults();
+    }
+}
+
+function loadPreviousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        loadQuestion();
+    }
+}
+
+function calculateResults() {
+    // スコアをリセット
+    scores = {
+        S1: 0, M1: 0, P1: 0,
+        V2: 0, M2: 0, G2: 0,
+        A3: 0, M3: 0, E3: 0,
+        consciousnessLevel: 0
+    };
+    
+    // 各回答のスコアを集計
+    userAnswers.forEach((answerIndex, questionIndex) => {
+        const question = allQuestions[questionIndex];
+        if (!question || !question.choices || !question.choices[answerIndex]) return;
+        
+        const choice = question.choices[answerIndex];
+        
+        if (choice.score !== undefined) {
+            // 意識レベル質問
+            scores.consciousnessLevel += choice.score;
+        }
+        if (choice.scores) {
+            // 性格タイプ質問
+            Object.keys(choice.scores).forEach(key => {
+                scores[key] += choice.scores[key];
+            });
+        }
+    });
+    
+    showResults();
+}
+
+function showResults() {
+    const level = determineConsciousnessLevel(scores.consciousnessLevel);
+    const type = determineType();
+    const resultCode = type + level;
+    
+    // タイプ名称の対応表
+    const typeNames = {
+        'SVA': '思索探求者',
+        'SVM': '慎重な調整者',
+        'SVE': '共感リーダー',
+        'SMA': '内省的戦略家',
+        'SMM': '平和主義の調和者',
+        'SME': '感性豊かな癒し手',
+        'SGA': '緻密な現実主義者',
+        'SGM': '安定志向のバランサー',
+        'SGE': '現場に強い共感実務家',
+        'MVA': '理想現実の橋渡し人',
+        'MVM': 'バランス思考の調整役',
+        'MVE': '感性とビジョンの共創者',
+        'MMA': '論理と実行の精密設計者',
+        'MMM': '中心軸を持つ均衡型',
+        'MME': '穏やかなる共感調整者',
+        'MGA': '現実に強い着実実行者',
+        'MGM': '堅実な安定構築者',
+        'MGE': '地に足ついた感情調整者',
+        'PVA': '革新的アイデアマン',
+        'PVM': '現場志向の推進者',
+        'PVE': '熱意あふれる表現者',
+        'PMA': '論理で切り拓く挑戦者',
+        'PMM': '行動する安定志向者',
+        'PME': '感情と創造の実験家',
+        'PGA': '結果にこだわる実行者',
+        'PGM': '効率的な現実構築者',
+        'PGE': '感情を動力にする達成者'
+    };
+    
+    // レベル名称の対応表
+    const levelNames = {
+        1: '防衛',
+        2: '葛藤',
+        3: '自立'
+    };
+    
+    document.getElementById('quiz-screen').style.display = 'none';
+    document.getElementById('result-screen').style.display = 'block';
+    
+    document.getElementById('result-code').textContent = resultCode;
+    
+    // タイプ名称を表示
+    const typeName = typeNames[type] || 'タイプ不明';
+    const levelName = levelNames[level] || 'レベル不明';
+    
+    document.getElementById('type-name').textContent = typeName;
+    document.getElementById('level-name').textContent = levelName;
+}
+
+function restartQuiz() {
+    document.getElementById('result-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'block';
+    currentQuestionIndex = 0;
+    userAnswers = [];
+    
+    // チェックボックスもリセット
+    document.getElementById('agreement-check').checked = false;
+    document.getElementById('start-button').disabled = true;
+}
+</script>
+</body>
+</html>
