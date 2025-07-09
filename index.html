@@ -794,9 +794,9 @@ document.addEventListener('DOMContentLoaded', function() {
 // ===== 意識レベル判定関数（3段階）=====
 function determineConsciousnessLevel(totalScore) {
     // 10問で最高20点、最低-10点
-    if (totalScore >= 8) return 3;
-    if (totalScore >= 0) return 2;
-    return 1;
+    if (totalScore >= 15) return 3;  // 15点以上でレベル3（自立）
+    if (totalScore >= 1) return 2;   // 1-14点でレベル2（葛藤）
+    return 1;                        // 0点以下でレベル1（防衛）
 }
 
 // ===== タイプ判定関数 =====
